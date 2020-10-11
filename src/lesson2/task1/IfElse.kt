@@ -5,6 +5,8 @@ package lesson2.task1
 import lesson1.task1.discriminant
 import kotlin.math.max
 import kotlin.math.sqrt
+import kotlin.math.abs
+import kotlin.math.pow
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
@@ -68,7 +70,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return when {
+        age % 10 in 2..4 && age % 100 !in 12..14 -> "$age года"
+        age % 10 == 1 && age % 100 != 11 -> "$age год"
+        else -> "$age лет"
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -96,7 +104,14 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    return when {
+        rookX1 != kingX && rookX2 != kingX && rookY1 != kingY && rookY2 != kingY -> 0
+        (rookX1 == kingX || rookY1 == kingY) && (rookX2 != kingX && rookY2 != kingY) -> 1
+        (rookX2 == kingX || rookY2 == kingY) && (rookX1 != kingX && rookY1 != kingY) -> 2
+        else -> 3
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +127,23 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    val deltaX = abs(kingX - bishopX)
+    val deltaY = abs(kingY - bishopY)
+    var bishopAttack = false
+    var rookAttack = false
+
+    if ((kingX == rookX) || (kingY == rookY))
+        rookAttack = true
+    if (deltaX == deltaY)
+        bishopAttack = true
+    return when {
+        bishopAttack && rookAttack -> 3
+        bishopAttack && !rookAttack -> 2
+        !bishopAttack && rookAttack -> 1
+        else -> 0
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -122,7 +153,19 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val cosA = (b.pow(2) + c.pow(2) - a.pow(2))
+    val cosB = (a.pow(2) + c.pow(2) - b.pow(2))
+    val cosC = (a.pow(2) + b.pow(2) - c.pow(2))
+    val cos = cosA * cosB * cosC
+    return if (c < (a + b) && b < (a + c) && a < (b + c)) {
+        when {
+            cos > 0 -> 0
+            cos < 0 -> 2
+            else -> 1
+        }
+    } else -1
+}
 
 /**
  * Средняя (3 балла)

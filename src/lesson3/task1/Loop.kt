@@ -2,7 +2,8 @@
 
 package lesson3.task1
 
-import kotlin.math.sqrt
+import kotlin.math.pow
+import kotlin.math.*
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -72,7 +73,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = n
+    do {
+        count++
+        number /= 10
+    } while (number != 0)
+    return count
+}
 
 /**
  * Простая (2 балла)
@@ -80,21 +89,37 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int =
+    if (n == 1) 1
+    else {
+        var first = 0
+        var second = 1
+        var result = 0
+        for (i in 2..n) {
+            result = first + second
+            first = second
+            second = result
+        }
+        result
+    }
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (m in 2..n)
+        if (n % m == 0) return m
+    return 0
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -112,7 +137,17 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var x1 = x
+    var steps = 0
+    while (x1 != 1) {
+        x1 = if (x1 % 2 == 1)
+            3 * x1 + 1
+        else x1 / 2
+        steps++
+    }
+    return steps
+}
 
 /**
  * Средняя (3 балла)
@@ -147,7 +182,18 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    val digits = digitNumber(n) - 1
+    var tempN = n
+    var result = 0
+    for (i in 0..digits) {
+        result += (tempN % 10)
+        if (i != digits)
+            result *= 10
+        tempN /= 10
+    }
+    return result
+}
 
 /**
  * Средняя (3 балла)
@@ -158,7 +204,7 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = (n == revert(n))
 
 /**
  * Средняя (3 балла)
