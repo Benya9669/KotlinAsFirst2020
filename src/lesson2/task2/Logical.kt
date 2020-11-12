@@ -30,13 +30,8 @@ fun isNumberHappy(number: Int): Boolean =
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return when {
-        x1 == x2 || y1 == y2 -> true
-        abs(x1 - x2) == abs(y1 - y2) -> true
-        else -> false
-    }
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+    x1 == x2 || y1 == y2 || (abs(x1 - x2) == abs(y1 - y2))
 
 /**
  * Простая (2 балла)
@@ -44,13 +39,12 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int =
-    when {
-        (month == 2 && ((year % 4 == 0) && ((year % 100 != 0) || year % 400 == 0))) -> 29
-        (month == 2 && ((year % 4 != 0) || (year % 100 == 0) || (year % 400 != 0))) -> 28
-        ((month in 1..7) && (month % 2 == 1) || (month in 7..12) && (month % 2 == 0)) -> 31
-        else -> 30
-    }
+fun daysInMonth(month: Int, year: Int): Int = when {
+    month == 2 && (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) -> 29
+    month == 2 && (year % 4 != 0 || year % 100 == 0 || year % 400 != 0) -> 28
+    month in 1..7 && month % 2 == 1 || month in 7..12 && month % 2 == 0 -> 31
+    else -> 30
+}
 
 /**
  * Простая (2 балла)
@@ -74,10 +68,7 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-    when {
-        ((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) -> true
-        ((a <= r) && (c <= s)) || ((a <= s) && (c <= r)) -> true
-        ((c <= r) && (b <= s)) || ((c <= s) && (b <= r)) -> true
-        else -> false
-    }
+    ((a <= r && b <= s) || (a <= s && b <= r)) ||
+            ((a <= r && c <= s) || (a <= s && c <= r)) ||
+            ((c <= r && b <= s) || (c <= s && b <= r))
 

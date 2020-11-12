@@ -183,13 +183,12 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int {
-    val digits = digitNumber(n) - 1
+    val digits = digitNumber(n)
     var tempN = n
     var result = 0
-    for (i in 0..digits) {
+    for (i in 1..digits) {
+        result *= 10
         result += (tempN % 10)
-        if (i != digits)
-            result *= 10
         tempN /= 10
     }
     return result
